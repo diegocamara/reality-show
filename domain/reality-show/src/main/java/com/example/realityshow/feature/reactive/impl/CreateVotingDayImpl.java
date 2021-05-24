@@ -37,6 +37,7 @@ public class CreateVotingDayImpl implements CreateVotingDay {
     return builder(modelValidator)
         .withDay(createVotingDayInputParams.getDay())
         .withPeriod(createVotingDayInputParams.getStart(), createVotingDayInputParams.getEnd())
+        .withParticipants(createVotingDayInputParams.getParticipants())
         .build();
   }
 }

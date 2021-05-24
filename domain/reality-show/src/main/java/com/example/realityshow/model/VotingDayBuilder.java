@@ -3,6 +3,7 @@ package com.example.realityshow.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,6 +43,11 @@ public class VotingDayBuilder {
     for (Participant participant : participants) {
       this.participants.put(participant.getId(), participant);
     }
+    return this;
+  }
+
+  public VotingDayBuilder withParticipants(List<Participant> participants) {
+    participants.forEach(participant -> this.participants.put(participant.getId(), participant));
     return this;
   }
 

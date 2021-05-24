@@ -6,5 +6,17 @@ spring:
       host: ${MONGODB_HOST:localhost}
       port: ${MONGODB_PORT:27017}
       database: ${MONGODB_DATABASE:realityshowdb}
+  rabbitmq:
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+
+batching-strategy:
+  batch-size: ${BATCHING_STRATEGY_BATCH_SIZE:5}
+  timeout: ${BATCHING_STRATEGY_TIMEOUT:30000}
+
 collections:
   realityshows: realityshows
+queue:
+  votes: ${RABBITMQ_VOTES_QUEUE_NAME:votes}

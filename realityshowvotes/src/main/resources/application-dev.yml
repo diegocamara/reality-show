@@ -8,10 +8,7 @@ spring:
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}
     host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:56721}
-batching-strategy:
-  batch-size: ${BATCHING_STRATEGY_BATCH_SIZE:10}
-  timeout: ${BATCHING_STRATEGY_TIMEOUT:30000}
+    port: ${RABBITMQ_PORT:5672}
 collections:
   realityshows: realityshows
 queue:
