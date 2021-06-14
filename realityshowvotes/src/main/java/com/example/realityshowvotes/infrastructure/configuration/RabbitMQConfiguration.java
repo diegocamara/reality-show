@@ -15,7 +15,7 @@ public class RabbitMQConfiguration {
       ConnectionFactory connectionFactory, ObjectMapper objectMapper) {
     final var simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
     simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
-    //    simpleRabbitListenerContainerFactory.setBatchListener(true);
+    simpleRabbitListenerContainerFactory.setBatchListener(true);
     simpleRabbitListenerContainerFactory.setMessageConverter(
         new Jackson2JsonMessageConverter(objectMapper));
     return simpleRabbitListenerContainerFactory;

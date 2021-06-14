@@ -32,9 +32,7 @@ public class BatchingRabbitMQVotesRepository implements VotesRepository {
   @Override
   public Mono<Void> save(Vote vote) {
     return Mono.fromRunnable(
-        () -> {
-          batchingRabbitTemplate.convertAndSend(votesQueue, voteMessage(vote));
-        });
+        () -> batchingRabbitTemplate.convertAndSend(votesQueue, voteMessage(vote)));
   }
 
   @SneakyThrows

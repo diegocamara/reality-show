@@ -1,13 +1,11 @@
 package com.example.realityshowvotes;
 
+import com.example.realityshowvotes.infrastructure.repository.SpringDataMongoDBVotesRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
-import org.springframework.amqp.rabbit.batch.SimpleBatchingStrategy;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.BatchingRabbitTemplate;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -46,13 +44,11 @@ public class ApplicationContextIntegratedTests {
       configurableApplicationContext.getBean(ObjectMapper.class);
   protected static final MongoTemplate mongoTemplate =
       configurableApplicationContext.getBean(MongoTemplate.class);
-  protected static final RabbitAdmin rabbitAdmin =
-      configurableApplicationContext.getBean(RabbitAdmin.class);
-  protected static final RabbitTemplate rabbitTemplate =
-      configurableApplicationContext.getBean(RabbitTemplate.class);
   protected static final ConnectionFactory connectionFactory =
       configurableApplicationContext.getBean(ConnectionFactory.class);
   protected static final BatchingRabbitTemplate batchingRabbitTemplate = batchingRabbitTemplate();
+  protected static final SpringDataMongoDBVotesRepository springDataMongoDBVotesRepository =
+      configurableApplicationContext.getBean(SpringDataMongoDBVotesRepository.class);
 
   static {
     Runtime.getRuntime()
@@ -80,7 +76,7 @@ public class ApplicationContextIntegratedTests {
   }
 
   private static BatchingRabbitTemplate batchingRabbitTemplate() {
-    final var simpleBatchingStrategy = new SimpleBatchingStrategy(10, Integer.MAX_VALUE, 30000);
+    final var simpleBatchingStrategy = new UUIDBatchStrategy(10, Integer.MAX_VALUE, 1);
     final var concurrentTaskScheduler = new ConcurrentTaskScheduler();
     return new BatchingRabbitTemplate(
         connectionFactory, simpleBatchingStrategy, concurrentTaskScheduler);

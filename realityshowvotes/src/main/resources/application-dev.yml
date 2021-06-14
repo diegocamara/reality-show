@@ -11,5 +11,6 @@ spring:
     port: ${RABBITMQ_PORT:5672}
 collections:
   realityshows: realityshows
+  votes: votes
 queue:
   votes: ${RABBITMQ_VOTES_QUEUE_NAME:votes}

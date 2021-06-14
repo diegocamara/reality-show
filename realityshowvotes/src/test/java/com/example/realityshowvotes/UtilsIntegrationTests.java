@@ -1,6 +1,7 @@
 package com.example.realityshowvotes;
 
 import com.example.realityshowvotes.application.messaging.model.VoteMessage;
+import com.example.realityshowvotes.infrastructure.repository.document.VoteDocument;
 import lombok.SneakyThrows;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -11,8 +12,9 @@ import java.util.UUID;
 
 public class UtilsIntegrationTests extends ApplicationContextIntegratedTests {
 
-  protected VoteMessage createVote(UUID voteId, LocalDateTime date, UUID participant) {
-    final var voteMessage = new VoteMessage(voteId, date, participant);
+  protected VoteMessage createVote(
+      UUID voteId, LocalDateTime date, UUID participant, UUID votingDay) {
+    final var voteMessage = new VoteMessage(voteId, date, participant, votingDay);
     final var message = message(voteMessage);
     batchingRabbitTemplate.convertAndSend(RABBITMQ_VOTES_QUEUE_NAME, message);
     return voteMessage;
@@ -24,5 +26,13 @@ public class UtilsIntegrationTests extends ApplicationContextIntegratedTests {
         .setContentType(MessageProperties.CONTENT_TYPE_JSON)
         .setContentEncoding("utf-8")
         .build();
+  }
+
+  protected VoteMessage voteMessage(VoteDocument voteDocument) {
+    return new VoteMessage(
+        voteDocument.getId(),
+        voteDocument.getDate(),
+        voteDocument.getParticipant(),
+        voteDocument.getVotingDay());
   }
 }

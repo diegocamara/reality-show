@@ -1,7 +1,6 @@
-package com.example.realityshowweb.infrastructure.configuration;
+package com.example.realityshowweb.infrastructure.configuration.rabbitmq;
 
 import com.example.realityshowweb.infrastructure.configuration.properties.BatchingStrategyProperties;
-import org.springframework.amqp.rabbit.batch.SimpleBatchingStrategy;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.BatchingRabbitTemplate;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,7 @@ public class BatchingRabbitTemplateConfiguration {
   public BatchingRabbitTemplate batchingRabbitTemplate(
       ConnectionFactory connectionFactory, BatchingStrategyProperties batchingStrategyProperties) {
     final var simpleBatchingStrategy =
-        new SimpleBatchingStrategy(
+        new UUIDBatchStrategy(
             batchingStrategyProperties.getBatchSize(),
             batchingStrategyProperties.getBufferLimit(),
             batchingStrategyProperties.getTimeout());

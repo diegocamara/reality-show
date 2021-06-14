@@ -13,10 +13,12 @@ public class VoteMessage implements Serializable {
   private UUID id;
   private LocalDateTime date;
   private UUID participant;
+  private UUID votingDay;
 
   public VoteMessage(Vote vote) {
     this.id = vote.getId();
     this.date = vote.getDate();
     this.participant = vote.getParticipant().getId();
+    this.votingDay = vote.getVotingDay().getId();
   }
 }

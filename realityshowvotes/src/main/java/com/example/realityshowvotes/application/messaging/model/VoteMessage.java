@@ -15,4 +15,20 @@ public class VoteMessage implements Serializable {
   private UUID id;
   private LocalDateTime date;
   private UUID participant;
+  private UUID votingDay;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    VoteMessage that = (VoteMessage) o;
+
+    return id.equals(that.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
 }
