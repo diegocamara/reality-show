@@ -1,0 +1,47 @@
+{
+  "_id": UUID(
+  "6b0bf747-7e65-4131-988d-9bb84e7ff1a8"
+  ),
+  "name": "Reality Show 1",
+  "participants": {
+    "6dfedd3c-aae9-4bde-a398-1a1fcf83508d": {
+      "_id": UUID(
+      "6dfedd3c-aae9-4bde-a398-1a1fcf83508d"
+      ),
+      "name": "Participant 1"
+    },
+    "46ef3c7e-157d-4c12-af2e-f11d84047fa5": {
+      "_id": UUID(
+      "46ef3c7e-157d-4c12-af2e-f11d84047fa5"
+      ),
+      "name": "Participant 2"
+    }
+  },
+  "votingDays": {
+    "76cb72ba-69f7-422f-851d-623dd2c89af3": {
+      "_id": UUID(
+      "76cb72ba-69f7-422f-851d-623dd2c89af3"
+      ),
+      "day": ISODate(
+      "2021-06-14T03:00:00Z"
+      ),
+      "votingPeriod": {
+        "start": ISODate(
+        "2021-06-14T23:43:49.692Z"
+        ),
+        "end": ISODate(
+        "2021-06-16T23:43:49.692Z"
+        )
+      },
+      "participants": [
+        UUID(
+        "6dfedd3c-aae9-4bde-a398-1a1fcf83508d"
+        ),
+        UUID(
+        "46ef3c7e-157d-4c12-af2e-f11d84047fa5"
+        )
+      ]
+    }
+  },
+  "_class": "com.example.realityshowweb.infrastructure.repository.springdata.mongodb.document.RealityShowDocument"
+}

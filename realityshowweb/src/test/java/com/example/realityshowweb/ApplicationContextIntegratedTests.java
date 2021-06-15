@@ -9,7 +9,6 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.core.BatchingRabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -49,8 +48,6 @@ public class ApplicationContextIntegratedTests {
       configurableApplicationContext.getBean(ReactiveMongoRealityShowRepository.class);
   protected static final ReactiveMongoTemplate reactiveMongoTemplate =
       configurableApplicationContext.getBean(ReactiveMongoTemplate.class);
-  protected static final BatchingRabbitTemplate batchingRabbitTemplate =
-      configurableApplicationContext.getBean(BatchingRabbitTemplate.class);
   protected static final RabbitAdmin rabbitAdmin =
       configurableApplicationContext.getBean(RabbitAdmin.class);
   protected static final Environment environment =
@@ -69,9 +66,9 @@ public class ApplicationContextIntegratedTests {
         .addShutdownHook(
             new Thread(
                 () -> {
-                  configurableApplicationContext.stop();
-                  mongoDBContainer.stop();
-                  rabbitMQContainer.stop();
+                  //                  configurableApplicationContext.stop();
+                  //                  mongoDBContainer.stop();
+                  //                  rabbitMQContainer.stop();
                   System.clearProperty(MONGODB_HOST_KEY);
                   System.clearProperty(MONGODB_PORT_KEY);
                   System.clearProperty(RABBITMQ_HOST_KEY);

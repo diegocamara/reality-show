@@ -41,6 +41,6 @@ public class RealityShowControllerV1 {
     return createVote
         .handle(new CreateVoteInputParams(realityShowId, votingDayId, voteRequest.getParticipant()))
         .map(vote -> ResponseEntity.status(HttpStatus.CREATED).build())
-        .onErrorResume(throwable -> Mono.error(throwable));
+        .onErrorResume(Mono::error);
   }
 }

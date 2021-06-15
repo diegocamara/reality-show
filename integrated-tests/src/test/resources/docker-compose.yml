@@ -7,9 +7,9 @@ services:
   rabbitmq:
     image: rabbitmq
     build: rabbitmq/
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+    #    ports:
+    #      - "5672:5672"
+    #      - "15672:15672"
     networks:
       - reality-show-network
   realityshowweb:
@@ -19,6 +19,7 @@ services:
       - mongo
     environment:
       - MONGODB_HOST=mongo
+      - RABBITMQ_HOST=rabbitmq
     networks:
       - reality-show-network
   realityshowvotes:
