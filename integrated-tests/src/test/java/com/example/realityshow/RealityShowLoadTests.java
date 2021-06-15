@@ -14,7 +14,7 @@ import java.time.Duration;
 
 import static us.abstracta.jmeter.javadsl.JmeterDsl.testPlan;
 
-public class RealityShowIntegratedTests extends IntegratedTest {
+public class RealityShowLoadTests extends IntegratedTest {
 
   @Test
   @SneakyThrows
@@ -52,7 +52,7 @@ public class RealityShowIntegratedTests extends IntegratedTest {
   @SneakyThrows
   private void createRealityShow() {
     final var realityShowInputStream =
-        RealityShowIntegratedTests.class.getResourceAsStream("/json/realityshow.json");
+        RealityShowLoadTests.class.getResourceAsStream("/json/realityshow.json");
     assert realityShowInputStream != null;
     final var realityShowStr = IOUtils.toString(realityShowInputStream, StandardCharsets.UTF_8);
     final var realityShowDocument = Document.parse(realityShowStr);
