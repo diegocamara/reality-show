@@ -5,7 +5,7 @@ services:
     networks:
       - reality-show-network
   rabbitmq:
-    image: rabbitmq:3.8.16-management
+    image: rabbitmq
     build: rabbitmq/
     networks:
       - reality-show-network
@@ -20,7 +20,7 @@ services:
     networks:
       - reality-show-network
   realityshowvotes:
-    image: realityshowotesconsumer
+    image: realityshowvotesconsumer
     build: realityshowvotes/
     depends_on:
       - mongo
