@@ -1,5 +1,8 @@
 package com.example.realityshowvotes;
 
+import java.nio.ByteBuffer;
+import java.util.*;
+import java.util.function.Consumer;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.batch.BatchingStrategy;
@@ -8,11 +11,8 @@ import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.util.Assert;
 
-import java.nio.ByteBuffer;
-import java.util.*;
-import java.util.function.Consumer;
-
 public class UUIDBatchStrategy implements BatchingStrategy {
+  public static final String BATCH_ID_MESSAGE_HEADER = "batch_id";
   private final int batchSize;
   private final int bufferLimit;
   private final long timeout;
@@ -91,10 +91,13 @@ public class UUIDBatchStrategy implements BatchingStrategy {
   }
 
   private Message assembleMessage() {
+    final var batchId = UUID.randomUUID().toString();
     if (this.messages.size() == 1) {
-      return (Message) this.messages.get(0);
+      final var message = (Message) this.messages.get(0);
+      message.getMessageProperties().getHeaders().put(BATCH_ID_MESSAGE_HEADER, batchId);
+      return this.messages.get(0);
     } else {
-      MessageProperties messageProperties = ((Message) this.messages.get(0)).getMessageProperties();
+      MessageProperties messageProperties = this.messages.get(0).getMessageProperties();
       byte[] body = new byte[this.currentSize];
       ByteBuffer bytes = ByteBuffer.wrap(body);
       Iterator var4 = this.messages.iterator();
@@ -105,7 +108,7 @@ public class UUIDBatchStrategy implements BatchingStrategy {
         bytes.put(message.getBody());
       }
 
-      messageProperties.getHeaders().put("batch_id", UUID.randomUUID().toString());
+      messageProperties.getHeaders().put(BATCH_ID_MESSAGE_HEADER, batchId);
       messageProperties.getHeaders().put("springBatchFormat", "lengthHeader4");
       messageProperties.getHeaders().put("amqp_batchSize", this.messages.size());
       return new Message(body, messageProperties);

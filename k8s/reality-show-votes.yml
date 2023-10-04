@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: realityshowvotes-service
+spec:
+  selector:
+    app: realityshowvotes
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: votes-port
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: realityshowvotes-deploy
+  labels:
+    app: realityshowvotes-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: realityshowvotes
+  template:
+    metadata:
+      labels:
+        app: realityshowvotes
+    spec:
+      containers:
+        - name: realityshowvotes
+          image: realityshowvotes:0.0.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MONGODB_HOST
+              value: mongodb-service
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: MONGODB_DATABASE
+              value: realityshowdb
+            - name: RABBITMQ_USERNAME
+              value: guest
+            - name: RABBITMQ_PASSWORD
+              value: guest
+            - name: RABBITMQ_HOST
+              value: rabbitmq-service
+            - name: RABBITMQ_PORT
+              value: "5672"
+          ports:
+            - name: votes-port
+              containerPort: 8080

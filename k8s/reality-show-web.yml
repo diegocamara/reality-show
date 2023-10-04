@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: realityshowweb-service
+spec:
+  selector:
+    app: realityshowweb
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: realityweb-port
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: realityshowweb-deploy
+  labels:
+    app: realityshowweb-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: realityshowweb
+  template:
+    metadata:
+      labels:
+        app: realityshowweb
+    spec:
+      containers:
+        - name: realityshowweb
+          image: realityshowweb:0.0.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MONGODB_HOST
+              value: mongodb-service
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: MONGODB_DATABASE
+              value: realityshowdb
+            - name: RABBITMQ_USERNAME
+              value: guest
+            - name: RABBITMQ_PASSWORD
+              value: guest
+            - name: RABBITMQ_HOST
+              value: rabbitmq-service
+            - name: RABBITMQ_PORT
+              value: "5672"
+          ports:
+            - containerPort: 8080
+              name: realityweb-port
+          resources:
+            requests:
+              cpu: "300m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"

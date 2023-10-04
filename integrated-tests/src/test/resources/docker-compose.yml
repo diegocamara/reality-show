@@ -1,15 +1,12 @@
 version: "3"
 services:
   mongo:
-    image: mongo:latest
+    image: mongo:4.4.4
     networks:
       - reality-show-network
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.8.16-management
     build: rabbitmq/
-    #    ports:
-    #      - "5672:5672"
-    #      - "15672:15672"
     networks:
       - reality-show-network
   realityshowweb:
