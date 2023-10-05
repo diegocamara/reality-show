@@ -9,7 +9,6 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: votes-port
-
 ---
 
 apiVersion: apps/v1
@@ -33,20 +32,46 @@ spec:
           image: realityshowvotes:0.0.1
           imagePullPolicy: IfNotPresent
           env:
+            - name: RABBITMQ_VOTES_QUEUE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: realityshow-config-map
+                  key: rabbitmq_votes_queue_name
             - name: MONGODB_HOST
-              value: mongodb-service
+              valueFrom:
+                secretKeyRef:
+                  name: realityshow-secret
+                  key: mongodb_host
             - name: MONGODB_PORT
-              value: "27017"
+              valueFrom:
+                secretKeyRef:
+                  name: realityshow-secret
+                  key: mongodb_port
             - name: MONGODB_DATABASE
-              value: realityshowdb
+              valueFrom:
+                secretKeyRef:
+                  name: realityshow-secret
+                  key: mongodb_database
             - name: RABBITMQ_USERNAME
-              value: guest
+              valueFrom:
+                secretKeyRef:
+                  name: realityshow-secret
+                  key: rabbitmq_username
             - name: RABBITMQ_PASSWORD
-              value: guest
+              valueFrom:
+                secretKeyRef:
+                  name: realityshow-secret
+                  key: rabbitmq_password
             - name: RABBITMQ_HOST
-              value: rabbitmq-service
+              valueFrom:
+                secretKeyRef:
+                  name: realityshow-secret
+                  key: rabbitmq_host
             - name: RABBITMQ_PORT
-              value: "5672"
+              valueFrom:
+                secretKeyRef:
+                  name: realityshow-secret
+                  key: rabbitmq_port
           ports:
             - name: votes-port
               containerPort: 8080
